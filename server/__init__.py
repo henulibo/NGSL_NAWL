@@ -1,0 +1,1 @@
+"""Authenticated vocabulary workbook service."""
