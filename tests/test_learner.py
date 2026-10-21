@@ -1,4 +1,4 @@
-"""Core-sense markers must stay tied to an official definition and a live Cambridge sense."""
+"""Official learner definitions must be clean and match the word lists."""
 import json
 import runpy
 from pathlib import Path
@@ -8,7 +8,6 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 learner = runpy.run_path(str(ROOT / 'vocab-data' / 'learner.py'))
 IDS = ['NGSL:account']
-CAMBRIDGE = {'NGSL:account': {'senses': [{'id': 'ID_1'}, {'id': 'ID_2'}]}}
 
 
 def write(folder, name, entries):
@@ -31,21 +30,6 @@ class LearnerDataTests(unittest.TestCase):
             unknown = write(folder, 'unknown.json', {'NGSL:ghost': {'definition': 'x'}})
             with self.assertRaisesRegex(ValueError, 'unknown words'):
                 learner['load_definitions'](unknown, IDS)
-
-    def test_core_senses_point_at_live_cambridge_or_added_senses(self):
-        defs = {'NGSL:account': 'arrangement with a bank'}
-        added = {'NGSL:account': [{'id': 'own:account-1'}]}
-        with tempfile.TemporaryDirectory() as folder:
-            good = write(folder, 'core.json', {'NGSL:account': ['ID_2', 'own:account-1']})
-            self.assertEqual(learner['load_core_senses'](good, CAMBRIDGE, added, defs), {'ID_2', 'own:account-1'})
-            stale = write(folder, 'stale.json', {'NGSL:account': ['ID_9']})
-            with self.assertRaisesRegex(ValueError, 'Stale core sense'):
-                learner['load_core_senses'](stale, CAMBRIDGE, added, defs)
-            empty = write(folder, 'empty.json', {'NGSL:account': []})
-            with self.assertRaisesRegex(ValueError, 'Empty core sense'):
-                learner['load_core_senses'](empty, CAMBRIDGE, added, defs)
-            with self.assertRaisesRegex(ValueError, 'official definition'):
-                learner['load_core_senses'](good, CAMBRIDGE, added, {})
 
     def test_public_data_covers_almost_every_word_without_private_dictionaries(self):
         data = ROOT / 'vocab-data'

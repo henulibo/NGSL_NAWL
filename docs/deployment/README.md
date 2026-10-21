@@ -19,6 +19,9 @@ docker compose up -d --build --wait
 
 Dockerfile 自动构建离线 HTML、服务器页面并安装 `server/requirements.txt` 中锁定的依赖。首次构建需要访问 Python 镜像仓库和 PyPI，不再要求下载离线 wheel。仅 app 与 edge 之间开放 8000，宿主机通过 Caddy 的 80 / 443 对外提供服务。Caddy 自动申请和续期域名证书，需持久保存其数据卷。
 
+> [!WARNING]
+> 不要把 app 的 8000 端口直接暴露到公网，也不要在 compose 中为 app 添加 `ports`。镜像以 `--proxy-headers --forwarded-allow-ips=*` 启动 uvicorn，会信任任何来源的 `X-Forwarded-For`；登录限流按该地址计数，直接暴露时客户端可伪造地址绕过限流，日志中的来源 IP 也不可信。Caddy 会用真实客户端地址覆盖该请求头，因此只应经由 Caddy 访问。改用其他反向代理时，确认它同样覆盖而非追加 `X-Forwarded-For`；必须直接运行 uvicorn 时，去掉这两个参数，或把 `--forwarded-allow-ips` 设为代理的实际地址。
+
 ### 初始化管理员
 
 以下命令在 Bash 中执行，密码 12–128 字符，经标准输入传入容器，不写进命令参数或仓库：
@@ -72,7 +75,7 @@ APP_ORIGIN=http://localhost:8000 COOKIE_SECURE=false DATABASE_PATH=.local/study.
   python -m uvicorn server.app:application --factory --host 127.0.0.1 --port 8000
 ```
 
-打开 `http://localhost:8000`，不要混用不同主机名或端口。正式部署保留 Secure cookie 并使用 HTTPS。本地数据库也不能提交。
+该命令不带 `--proxy-headers`，只适合本机访问；不要改成 `--host 0.0.0.0` 后对外提供服务。打开 `http://localhost:8000`，不要混用不同主机名或端口。正式部署保留 Secure cookie 并使用 HTTPS。本地数据库也不能提交。
 
 ## 离线与同步
 

@@ -49,10 +49,10 @@ def prepare(source, examples, target):
     def resolve(word):
         row = rows.get(word)
         if row and row['translation']:
-            result = {'meaning': row['translation'].replace('\\n', '\n'), 'ipa': row['phonetic']}
+            result = {'meaning': row['translation'].replace('\\r', '').replace('\\n', '\n'), 'ipa': row['phonetic']}
             base = base_of(word)
             if base:
-                result.update(lemma=base, baseMeaning=rows[base]['translation'].replace('\\n', '\n'))
+                result.update(lemma=base, baseMeaning=rows[base]['translation'].replace('\\r', '').replace('\\n', '\n'))
             return result
         base = forms.get(word)
         if word.endswith("'s"):
@@ -74,7 +74,7 @@ def prepare(source, examples, target):
                 candidates.append(word[:-1])
             base = next((candidate for candidate in candidates if translated(candidate)), None)
         if base and translated(base):
-            meaning = rows[base]['translation'].replace('\\n', '\n')
+            meaning = rows[base]['translation'].replace('\\r', '').replace('\\n', '\n')
             return {'meaning': meaning, 'ipa': '', 'lemma': base, 'baseMeaning': meaning}
         if '-' in word:
             parts = []

@@ -80,7 +80,7 @@ docs/            部署、数据来源和公开发布说明
 .github/         CI、依赖更新配置及 Issue / PR 模板
 ```
 
-生成的独立 HTML、`vocab-data/examples-data.json` 和 `server/web/` 均被忽略。旧词典导入工具保留在源码中，但默认构建不依赖私有数据，也不会下载第三方词典。
+生成的独立 HTML、`vocab-data/examples-data.json` 和 `server/web/` 均被忽略。源码不含第三方词典的抓取或导入工具；构建只读取仓库内的公开数据，也不会下载词典。
 
 ## 打包与发布
 

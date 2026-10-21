@@ -23,7 +23,7 @@ class LookupDataTests(unittest.TestCase):
                     dict(word='child', phonetic='tʃaɪld', translation='n. 孩子', exchange='s:children'),
                     dict(word='children', phonetic='', translation='pl. 孩子们', exchange='0:child/1:s'),
                     dict(word='researcher', phonetic='', translation='n. 研究员', exchange='s:researchers'),
-                    dict(word='eight', phonetic='', translation='num. 八', exchange=''),
+                    dict(word='eight', phonetic='', translation='num. 八\\r\\nn. 八个', exchange=''),
                     dict(word='hour', phonetic='', translation='n. 小时', exchange='s:hours'),
                     dict(word='epistemology', phonetic='', translation='n. 认识论', exchange=''),
                 ])
@@ -44,6 +44,14 @@ class LookupDataTests(unittest.TestCase):
             self.assertEqual([part['word'] for part in data['eight-hour']['components']], ['eight', 'hour'])
             self.assertEqual(data['epistemology']['meaning'], 'n. 认识论')
             self.assertNotIn('mysteryword', data)
+            # ECDICT stores line breaks as literal escapes, sometimes with a stray \r.
+            self.assertEqual(data['eight']['meaning'], 'num. 八\nn. 八个')
+
+    def test_retained_dictionary_has_no_literal_escape_sequences(self):
+        data = json.loads((ROOT / 'vocab-data/lookup-data.json').read_text(encoding='utf-8'))
+        for word, entry in data.items():
+            for field in ('meaning', 'baseMeaning'):
+                self.assertNotRegex(entry.get(field, ''), r'\\[rn]', f'{word}.{field}')
 
 
 if __name__ == '__main__':

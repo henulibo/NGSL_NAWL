@@ -34,7 +34,7 @@ LOCAL_ONLY = {
 REQUIRED = ROOT_FILES | PUBLIC_DOCS | {'vocab-data/' + name for name in PUBLIC_DATA} | {
     'scripts/package_public_release.py', 'vocab-data/build.py',
     'vocab-data/public_corpus.py', 'vocab-data/learner.py',
-    'vocab-data/page-template.html', 'vocab-data/cefr.js', 'vocab-data/lookup.js',
+    'vocab-data/page-template.html', 'vocab-data/entry.js', 'vocab-data/lookup.js',
     'vocab-data/speech.js', 'server/build_web.py', 'server/app.py', 'server/db.py',
     'server/manage.py', 'server/security.py', 'server/__init__.py',
     'server/requirements.txt', 'server/requirements-dev.txt', 'deploy/Caddyfile',

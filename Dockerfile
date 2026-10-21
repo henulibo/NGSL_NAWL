@@ -25,6 +25,7 @@ COPY vocab-data/ecdict-license.txt /app/vocab-data/ecdict-license.txt
 COPY LICENSE NOTICE /app/
 USER 10001:10001
 EXPOSE 8000
+# Trusts X-Forwarded-For from any peer: only reachable through Caddy, never publish port 8000.
 CMD ["python","-m","uvicorn","server.app:application","--factory","--host","0.0.0.0","--port","8000","--proxy-headers","--forwarded-allow-ips=*","--limit-concurrency","32","--no-server-header"]
 
 FROM runtime AS test

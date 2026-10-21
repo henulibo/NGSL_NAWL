@@ -32,7 +32,7 @@ NGSL / NAWL 作者：Charles Browne、Brent Culligan、Joseph Phillips（2013）
 
 首次整理时，旧 HTML 和旧词典 JSON 已保存在本机忽略目录 `private-release-notes/legacy-vocabulary/`，它们不属于公开源码、CI 或发布包。旧的 `cambridge-senses.json`、`core-senses.json`、`senses-extra.json`、`examples-extra.json` 也被显式排除。
 
-`cambridge.py`、`merge_examples.py` 和 `learner.load_core_senses` 是保留的本地导入工具，仅用合成测试数据验证解析逻辑；默认构建不调用它们。若自行导入第三方内容，应先取得对应使用及分发授权。剑桥针对离线存储和嵌入提供单独授权途径，参见 [官方 API FAQ](https://dictionary-api.cambridge.org/api/faq)。导入内容不会因为项目使用 MIT 就自动获得分发许可。
+旧的剑桥页面解析、例句合并和核心义项标注工具已从公开源码中移除，页面也不再渲染 CEFR 等级或核心义项。若自行加入第三方内容，应先取得对应使用及分发授权；导入内容不会因为项目使用 MIT 就自动获得分发许可。
 
 ## 更新数据
 
