@@ -1,0 +1,67 @@
+.idea/
+.DS_Store
+__pycache__/
+*.pyc
+
+# Temporary previews, duplicate inputs, and one-off data preparation files.
+vocab-data/popup-preview.html
+vocab-data/add_popup.py
+vocab-data/correct_senses.py
+vocab-data/ecdict-mini.csv
+vocab-data/nawl-official.txt
+vocab-data/ngsl-nawl-31k-official.xlsx
+vocab-data/examples/input-*.json
+vocab-data/examples/audit-*.json
+vocab-data/examples/word-forms.json
+
+# Generated online bundle, local credentials and runtime databases.
+server/web/
+.env
+.env.*
+!.env.example
+deploy-secrets/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.sql
+*.log
+.pytest_cache/
+deploy/wheels/
+backups/
+.local/
+NGSL_NAWL_学习进度_*.json
+
+.venv/
+node_modules/
+
+# Machine-specific agent settings and private publication artifacts.
+.claude/
+.codex/
+.agents/
+.aws/
+.ssh/
+.npmrc
+.pypirc
+private-release-notes/
+public-release/
+
+# Generated pages and corpora; rebuild from the openly licensed source data.
+NGSL_NAWL_10天学习词表.html
+vocab-data/examples-data.json
+
+# Legacy dictionary content is local only, never part of the public repository.
+vocab-data/cambridge-senses.json
+vocab-data/core-senses.json
+vocab-data/senses-extra.json
+vocab-data/examples-extra.json
+
+.coverage
+htmlcov/
+*.egg-info/
+dist/

@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: server/requirements*.txt
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: tests/package-lock.json
+      - name: Install test dependencies
+        run: |
+          python -m pip install -r server/requirements-dev.txt
+          npm --prefix tests ci --ignore-scripts
+      - name: Build and test
+        run: |
+          make build
+          make test
+          make check-release
+          docker compose config --quiet
+      - name: Verify source archive without Git metadata
+        run: |
+          make release
+          python -m zipfile -e public-release/ielts-source.zip "$RUNNER_TEMP/ngsl-release"
+          cd "$RUNNER_TEMP/ngsl-release/ielts-source"
+          python vocab-data/build.py
+          python server/build_web.py
+          python scripts/package_public_release.py --check
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Build and test the container from source
+        run: |
+          docker build --target test --tag ngsl-workbook:test .
+          docker run --rm ngsl-workbook:test

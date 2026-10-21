@@ -1,0 +1,29 @@
+NGSL × NAWL Vocabulary Workbook
+
+Project code and original documentation: MIT, see LICENSE.
+This license does not replace the licenses of the datasets below.
+
+NGSL 1.2 / NAWL 1.2 / supplementary word list
+Authors: Charles Browne, Brent Culligan, Joseph Phillips
+Source: New General Service List Project (2013)
+https://www.newgeneralservicelist.com/new-general-service-list
+https://www.newgeneralservicelist.com/new-academic-word-list
+License: Creative Commons Attribution-ShareAlike 4.0 International
+https://creativecommons.org/licenses/by-sa/4.0/
+Applies to: vocab-data/ngsl-official.csv, nawl-stats.csv, supplementary.csv,
+study-data.json, learner-definitions.json, and their embedded data in builds.
+Changes: five-day scheduling, JSON conversion, whitespace normalization and
+omission of invalid spreadsheet values. These data adaptations are shared
+under CC BY-SA 4.0. No endorsement by the original authors is implied.
+
+ECDICT
+Copyright (c) 2025 Linwei
+https://github.com/skywind3000/ECDICT
+License: MIT; full text in vocab-data/ecdict-license.txt.
+Applies to vocab-data/lookup-data.json and its embedded translations and
+phonetics in builds. This is a subset with normalized fields and inflections.
+
+Builds combine separately licensed code and datasets. Preserve this notice,
+the data attribution and the applicable licenses when redistributing them.
+Cambridge Dictionary definitions, examples and CEFR annotations are not
+included in the public source or the default build.

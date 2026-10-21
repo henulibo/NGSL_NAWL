@@ -1,0 +1,28 @@
+name: 问题报告 / Bug report
+description: 报告可以复现的错误；安全漏洞请按 SECURITY.md 私下报告。
+body:
+  - type: textarea
+    id: environment
+    attributes:
+      label: 运行环境
+      description: 提交版本、操作系统、浏览器版本，以及离线 HTML 或自部署服务模式。
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 请去掉真实账号、密码、Cookie、服务器地址和个人数据。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期与实际结果
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 已脱敏的日志或截图
+      description: 不要上传数据库、进度导出或会话凭据。
